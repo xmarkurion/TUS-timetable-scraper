@@ -8,9 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from datetime import date
 
-from bs4 import BeautifulSoup
 import requests
-
 import os
 
 
