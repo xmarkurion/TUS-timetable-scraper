@@ -8,10 +8,10 @@ from html_translate import *
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    x = TimeTable("AL803")
-    x.today_day()
-    x.load_page()
+    # x = TimeTable("AL803")
+    # x.today_day()
+    # x.load_page()
 
-    # y = HtmlProcessor()
+    y = HtmlProcessor()
 
 
