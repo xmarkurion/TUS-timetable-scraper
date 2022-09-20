@@ -27,7 +27,7 @@ class TimeTable():
         # print(r.text)
         # self.driver.get("https://timetable.ait.ie/2122/login.aspx?ReturnUrl=%2f2122%2fdefault.aspx")
 
-        self.browser.get("https://timetable.ait.ie/2122/login.aspx?ReturnUrl=%2f2122%2fdefault.aspx")
+        self.browser.get("https://timetable.ait.ie/2223/login.aspx?ReturnUrl=%2f2223%2fdefault.aspx")
         guestLoginBtn = self.browser.find_element_by_id('bGuestLogin')
 
         try:
@@ -54,7 +54,8 @@ class TimeTable():
             select_course = Select(WebDriverWait(self.browser, 10).until(
                 EC.presence_of_element_located((By.ID, 'dlObject'))
             ))
-            select_course.select_by_value('AL_KMOBA_8_1')
+
+            select_course.select_by_value(self.course_code)
 
             # Finds a day interesting day sorted by numbers 1 Monday etc.
             select_day = Select(WebDriverWait(self.browser, 10).until(
