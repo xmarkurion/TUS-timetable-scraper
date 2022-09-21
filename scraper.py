@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.chrome.options import Options
 from datetime import date
 
 import requests
@@ -15,9 +16,14 @@ import os
 class TimeTable():
     def __init__(self, course_code):
         self.today = date.today()
-        self.browser = webdriver.Chrome()
+        self.browser = webdriver.Chrome(options = self.getOptions())
         self.course_code = course_code
-        print(f'all ok {self.course_code}')
+        print(f'Processing data for: {self.course_code}')
+
+    def getOptions(self):
+        options = Options()
+        options.headless = True
+        return options
 
     def today_day(self):
         return str(self.today.strftime("%A"))
@@ -71,12 +77,14 @@ class TimeTable():
             self.browser.switch_to_window(window_name=self.browser.window_handles[-1])
 
             time.sleep(3)
-            with open('out.html', 'w') as file:
+
+            finalOutFileName = (f'{self.course_code}.html')
+
+            with open(finalOutFileName, 'w') as file:
                 file.write(self.browser.page_source)
 
         except:
             self.browser.quit()
 
-        # self.browser.quit()
-        print('page_loaded')
-        os.system("Pause")
+        print('Script finished')
+        #os.system("Pause")
