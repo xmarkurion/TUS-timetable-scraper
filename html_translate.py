@@ -1,35 +1,35 @@
 from bs4 import BeautifulSoup
-from datetime import date
+from datetime import datetime
+
 
 class HtmlProcessor:
-    def __init__(self):
+    def __init__(self, htmlFileName):
+        # Var declarations:
         self.html = """"""
+        self.htmlFileName = htmlFileName + ".html"
+
         self.load()
-        self.today = date.today()
+        self.soup = BeautifulSoup(self.html, 'html.parser')
+
+        # Insert before the end of the </body>
+        self.soup.body.insert(len(self.soup.body.contents), self.customFooterHtml())
+
+        self.html = self.soup.prettify(formatter="html")
         self.save()
 
-        self.soup = BeautifulSoup(self.html, 'html.parser')
-        print(self.soup.title)
-
-        # print(self.soup.findAll('tr'))
-        table_data = self.soup.find_all('table')
-
-        x=0
-
-        for item in table_data:
-            x +=1
-            for td in item:
-                print(td)
-        # print(item.prettify())
-
     def load(self):
-        with open('out.html', 'r') as f:
+        with open(self.htmlFileName, 'r') as f:
             self.html = f.read()
 
     def save(self):
-        with open('nest.html', 'w') as f:
+        with open('out.html', 'w') as f:
             f.write(self.html)
 
-
-
-
+    def customFooterHtml(self):
+        now = datetime.now()
+        today = now.strftime("%d/%m/%Y %H:%M:%S")
+        customFooter = f"""
+        <footer>
+        <p style="margin: 0 auto; text-align: center;">Table processed by Markurion(c) Last timetable update: {today} </p>
+        </footer> """
+        return BeautifulSoup(customFooter, 'html.parser')
