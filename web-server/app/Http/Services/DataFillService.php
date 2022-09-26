@@ -12,6 +12,7 @@ class DataFillService extends Controller
         dump($this->make("AL_KMOBA_8_2"));
         dump($this->make("AL_KAICC_7_2"));
         dump($this->make("AL_KMOBA_7_2"));
+        dump($this->make("AL_KAICC_7_1"));
 
     }
 
