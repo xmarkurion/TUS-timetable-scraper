@@ -18,5 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/tables',[TimeController::class,'index'])->name("timetable.home");
-Route::put('/tables/{$id}',[TimeController::class,'update'])->name("timetable.update");
+Route::get('/tables',[TimeController::class,'index'])->name("home");
+Route::get('/tables/{courseName}',[TimeController::class,'countUpdate'])->name("update");

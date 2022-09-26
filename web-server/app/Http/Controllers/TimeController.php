@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 use App\Http\Services\DataFillService;
 use App\Models\Time;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Helper\Table;
 
 class TimeController extends Controller
 {
+
+    public function setup(){
+        $a = new DataFillService();
+        dump($a->procreate());
+        dump("Setup was done");
+    }
 
     /**
      * Display a listing of the resource.
@@ -16,13 +23,26 @@ class TimeController extends Controller
 
     public function index()
     {
-//        $a = new DataFillService();
-//        dd($a->procreate());
-//
-//        DataFillService::viscountUpdate(1);
-
         $timee = Time::all();
         return view('tables', compact('timee'));
+    }
+
+    public function countUpdate($courseName){
+        $d = Time::where('name', $courseName)->first();
+        DataFillService::viscountUpdate($d->id);
+
+        $lastUpdated = $d->updated_at;
+        $nowDate = Carbon::now();
+        $totalDiference = $nowDate->diffInSeconds($lastUpdated);
+
+        dump("Time that passed since last update: ".$totalDiference);
+
+        if(DataFillService::moreThanEnough($totalDiference)){
+            dump("The table will UPDATE CREATE DATE");
+            DataFillService::createdUpdate($d->id);
+            return redirect(route('home'));
+        }
+        return redirect(route('home'));
     }
 
     /**

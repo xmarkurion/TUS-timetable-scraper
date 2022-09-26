@@ -34,14 +34,15 @@
         <th>ID</th>
         <th>Name</th>
         <th>Viscount</th>
-        <th>Updated</th>
+        <th>Last Update</th>
+        <th>Created</th>
     </tr>
     @foreach ($timee as $r)
         <tr>
             <td>{{$r->id}}</td>
             <td>
                 <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action">{{$r->name}}</a>
+                        <a href="{{route('update',['courseName' => $r->name])}}" class="list-group-item list-group-item-action">{{$r->name}}</a>
                 </div>
             </td>
             <td>
@@ -50,6 +51,7 @@
                 </div>
             </td>
             <td>{{$r->updated_at}}</td>
+            <td>{{$r->created_at}}</td>
         </tr>
     @endforeach
 </table>
