@@ -9,10 +9,6 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.chrome.options import Options
 from datetime import date
 
-import requests
-import os
-
-
 class TimeTable():
     def __init__(self, course_code):
         self.today = date.today()

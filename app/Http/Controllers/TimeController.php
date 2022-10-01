@@ -31,9 +31,9 @@ class TimeController extends Controller
         $d = Time::where('name', $courseName)->first();
         DataFillService::viscountUpdate($d->id);
 
-        $lastUpdated = $d->updated_at;
+        $lastCreated = $d->created_at;
         $nowDate = Carbon::now();
-        $totalDiference = $nowDate->diffInSeconds($lastUpdated);
+        $totalDiference = $nowDate->diffInSeconds($lastCreated);
 
         dump("Time that passed since last update: ".$totalDiference);
 

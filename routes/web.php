@@ -20,3 +20,4 @@ Route::get('/', function () {
 
 Route::get('/tables',[TimeController::class,'index'])->name("home");
 Route::get('/tables/{courseName}',[TimeController::class,'countUpdate'])->name("update");
+Route::get('setup', [TimeController::class, 'setup'])->name("setup");

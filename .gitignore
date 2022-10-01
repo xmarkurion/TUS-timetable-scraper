@@ -14,3 +14,10 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+/python/.venv/
+/python/.idea/
+/python/chromedriver.exe
+/python/out.html
+/python/nest.ntml
+/python/*.html
+/python/__pycache__/
