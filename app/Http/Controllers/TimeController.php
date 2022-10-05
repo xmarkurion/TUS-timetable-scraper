@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 use App\Http\Services\DataFillService;
+use App\Http\Services\TableGetterService;
 use App\Models\Time;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Helper\Table;
+
 
 class TimeController extends Controller
 {
