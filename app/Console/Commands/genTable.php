@@ -12,7 +12,7 @@ class genTable extends Command
      *
      * @var string
      */
-    protected $signature = 'command:genTable';
+    protected $signature = 'command:genTable {name}';
 
     /**
      * The console command description.
@@ -38,8 +38,9 @@ class genTable extends Command
      */
     public function handle()
     {
+//      $tableName = $this->argument("tableName");
         $a = new TableGetterService();
-        $a->gettable();
+        $a->gettable(null);
         return 0;
     }
 }
