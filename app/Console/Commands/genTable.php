@@ -12,7 +12,8 @@ class genTable extends Command
      *
      * @var string
      */
-    protected $signature = 'command:genTable {name}';
+    protected $signature = 'command:genTable
+        {name=Null : The name of the timetable.}';
 
     /**
      * The console command description.
@@ -38,9 +39,9 @@ class genTable extends Command
      */
     public function handle()
     {
-//      $tableName = $this->argument("tableName");
-        $a = new TableGetterService();
-        $a->gettable(null);
+            $tableName = $this->argument("name");
+            $a = new TableGetterService();
+            $a->gettable($tableName);
         return 0;
     }
 }

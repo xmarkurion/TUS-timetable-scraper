@@ -18,13 +18,14 @@ class TableGetterService
      * @return void
      */
     public function gettable(?string $timetableName){
+        //Checks if value is empty and display message accordingly
         if (!$timetableName == null){
-            dump("Time table value is: ".$timetableName);
+            dump("Time table value is: ".$timetableName." Please add timetable name");
         }
 
         $scriptLocation = $this->python_path.'pass.py';
         dump(gettype($scriptLocation));
-        $args =  ['python3',$scriptLocation,'testing'];
+        $args =  ['python',$scriptLocation,'testing'];
         dump($args);
         $process = new Process($args);
         $process->run();
