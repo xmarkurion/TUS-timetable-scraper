@@ -19,21 +19,23 @@ class TableGetterService
      */
     public function gettable(?string $timetableName){
         //Checks if value is empty and display message accordingly
-        if (!$timetableName == null){
-            dump("Time table value is: ".$timetableName." Please add timetable name");
-        }
+        if ($timetableName != null){
+            dump("Time table value is: ".$timetableName." Let's gather the intel...");
+            $scriptLocation = $this->python_path.'pass.py';
+            dump(gettype($scriptLocation));
+            $args =  ['python',$scriptLocation,'testing'];
+            dump($args);
+            $process = new Process($args);
+            $process->run();
 
-        $scriptLocation = $this->python_path.'pass.py';
-        dump(gettype($scriptLocation));
-        $args =  ['python',$scriptLocation,'testing'];
-        dump($args);
-        $process = new Process($args);
-        $process->run();
-
-        // executes after the command finishes
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
+            // executes after the command finishes
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+            echo $process->getOutput();
+            return;
         }
-        echo $process->getOutput();
+        dump("Value is a NULL Please add timetable name.");
+
     }
 }
