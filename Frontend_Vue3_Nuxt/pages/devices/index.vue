@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card'
 import Lecture from '@/components/markurion/Lecture'
 import Break from '../../components/markurion/Break.vue'
-const data = await queryContent('main').findOne()
+const data = await queryContent('devices').findOne()
 
 // Helper function to capitalize the first letter of a string
 const capitalize = (str:string) => str.charAt(0).toUpperCase() + str.slice(1)
