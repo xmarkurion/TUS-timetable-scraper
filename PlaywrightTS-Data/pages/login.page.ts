@@ -14,6 +14,7 @@ export class TimeTable{
 
     public constructor(
         public courseName: string,
+        public finalFileName: string,
         private page: Page,
         private context: Context,
     ){
@@ -53,7 +54,7 @@ export class TimeTable{
         //close new page and save data
         const handy = new FileProcessor()
         const file = JSON.stringify(table)
-        await handy.saveToFile('TimeTablesJson', this.courseName+'.json', file);
+        await handy.saveToFile('TimeTablesJson', this.finalFileName+'.json', file);
         console.log("Saved....")
     }
 }

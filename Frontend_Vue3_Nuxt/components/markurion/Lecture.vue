@@ -15,6 +15,10 @@ const props = defineProps({
     }
 })
 
+const staff = computed(()=>{
+  return props.data.Staff.split(";")
+})
+
 
 </script>
 
@@ -25,10 +29,10 @@ const props = defineProps({
           <CardDescription>
             <div class="desc">
               <div>
-                {{ data.Type }} - {{ data.Staff }} 
+                <p v-for="person in staff">{{ person }}</p>
               </div>
              <div>
-              {{ data.Room.split(" ")[0] }} 
+              {{ data.Type }} ... {{ data.Room.split(" ")[0] }} 
              </div>
             </div>
           </CardDescription>

@@ -13,7 +13,7 @@ import Break from '../../components/markurion/Break.vue'
 
 // Here we will use composable to show us the corect table.
 import useTableTool from '@/composables/tableTool.ts'
-const { data, dayOff,currentDay } = useTableTool('devices')
+const { data, dayOff,currentDay } = useTableTool('cloud')
 
 </script>
 
