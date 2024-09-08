@@ -48,9 +48,11 @@ import {
         </TableCell>
         <TableCell>Cloud with AI</TableCell>
         <TableCell class="text-right">
-          <Button variant="outline" size="icon">
-            <ChevronRight class="w-4 h-4" />
-          </Button>
+          <NuxtLink :to="'/cloud'">
+            <Button variant="outline" size="icon">
+              <ChevronRight class="w-4 h-4" />
+            </Button>
+          </NuxtLink>
         </TableCell>
       </TableRow>
 

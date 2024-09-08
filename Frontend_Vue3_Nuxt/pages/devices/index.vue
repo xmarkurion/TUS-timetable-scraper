@@ -10,27 +10,10 @@ import {
 } from '@/components/ui/card'
 import Lecture from '@/components/markurion/Lecture'
 import Break from '../../components/markurion/Break.vue'
-const data = await queryContent('devices').findOne()
 
-// Helper function to capitalize the first letter of a string
-const capitalize = (str:string) => str.charAt(0).toUpperCase() + str.slice(1)
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-
-// Computed property to get the current day capitalized
-const currentDay = computed(() => {
-  const today = new Date().getDay()
-  if(today == 0 || today == 6){
-    return ''
-  }
-  return capitalize(days[today])
-})
-
-const dayOff = computed(()=>{
-  if (currentDay.value === ''){
-    return true
-  }
-  return false
-});
+// Here we will use composable to show us the corect table.
+import useTableTool from '@/composables/tableTool.ts'
+const { data, dayOff,currentDay } = useTableTool('devices')
 
 </script>
 
