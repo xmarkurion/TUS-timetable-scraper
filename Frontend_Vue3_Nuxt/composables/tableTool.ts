@@ -1,11 +1,11 @@
 
 import { useAsyncState } from "@vueuse/core"
 
-export default function useTableTool(tableSource: string){
+export default function useTableTool(data){
     
     // The old way still handy for reference
     // const data = await queryContent(tableSource).findOne()
-    const { state: data } = useAsyncState(queryContent(tableSource).findOne(), null)
+    // const { state: data } = useAsyncState(queryContent(tableSource).findOne(), null)
 
     // Helper function to capitalize the first letter of a string
     const capitalize = (str:string) => str.charAt(0).toUpperCase() + str.slice(1)
