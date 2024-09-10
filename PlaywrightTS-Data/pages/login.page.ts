@@ -36,7 +36,7 @@ export class TimeTable{
         await this. secondStep.click();
 
         await this.courseLocator.selectOption(this.courseName);
-        await this.weekSelectLocator.selectOption('4;5;6;7;8;9;10;11;12;13;14;15');
+        await this.weekSelectLocator.selectOption('t');
         await this.page.getByLabel('List Layout').check();
         await this.buttonShowTheTable.click();
 
