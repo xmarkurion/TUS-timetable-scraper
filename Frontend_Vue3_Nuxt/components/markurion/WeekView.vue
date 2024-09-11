@@ -13,9 +13,18 @@ import Break from '../../components/markurion/Break.vue'
 import useTableTool from '@/composables/tableTool'
 import type { ParsedContent } from '@nuxt/content';
 
+// Data should be parsed json file with week content
 const props = defineProps<{
-    data: any
+    data: ParsedContent,
+    courseCode: {
+      type: String,
+      default: "devices"
+    }
 }>()
+
+const linkLive = computed(()=>{
+  return `/${props.courseCode}/live`
+})
 
 // const dataSource = await queryContent('devices').findOne()
 const { data, dayOff,currentDay } = useTableTool(props.data)
@@ -24,7 +33,7 @@ const { data, dayOff,currentDay } = useTableTool(props.data)
 
 <template>
   <div class="header">
-    <NuxtLink :to="'/devices/live'">
+    <NuxtLink :to="linkLive">
       <Card>
         <CardHeader>
           <CardTitle> Now Playing {{ currentDay }}</CardTitle>
