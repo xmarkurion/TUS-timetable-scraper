@@ -8,7 +8,7 @@ const data = await queryContent('devices').findOne()
 // const now = useNow({ interval: 60000 }) // Update every minute
 
 const now = useNow() // Update every minute
-// const now = ref(new Date(1726247448000))
+// const now = ref(new Date(1726017817000))
 
 // Format the current time as hh:mm:ss
 const formattedTime = computed(() => {
@@ -26,11 +26,6 @@ const currentDayName = computed(() => {
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   return days[now.value.getDay()]
 })
-
-// // Get activities for the current day
-// const todayActivities = computed(() => {
-//   return data[currentDayName.value] || []
-// })
 
 const amountOfTodayActivities = computed(()=>{
   return todayActivities.value.length
@@ -96,8 +91,12 @@ const upcomingActivity = computed(() => {
                 <hr>
               </div>
               <div v-if="(upcomingActivity.key+1) !== amountOfTodayActivities" class="py-2 text-center">
-                Next:
-                <Lecture :data="todayActivities[upcomingActivity.key + 1]"/>
+                <div>
+                  Up Next
+                </div>
+                <div class="pt-2">
+                  <Lecture :data="todayActivities[upcomingActivity.key + 1]"/>
+                </div>
               </div>
             </div>
 
@@ -122,19 +121,36 @@ const upcomingActivity = computed(() => {
               No more activities for today.
             </div>
             <div class="pt-2 text-center">
-              Go Home and enjoy the life before 9-5 lifestyle...
+              Go Home and read something, knowledge is all you need.
             </div>
+            <div class="pt-2 text-center">
+              “Wherever you go, there you are.”
+              <span class="quote">Thomas à Kempi</span>
+            </div>
+            <video autoplay playsinline muted loop width="400px" class="video">  
+              <source src="/images/vid.webm" type="video/webm" >  
+              Sorry, your browser doesn't support HTML5 video.  
+            </video> 
           </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: black; /* Set background color to black */
+  color: white; /* Optional: Set text color to white for better contrast */
+  height: 100%;
+}
+
 .time {
     display: flex;
     justify-content: center;
     align-items: center;
     border: 2px darkcyan solid;
+    width: 120px;
 }
 
 .info{
@@ -145,8 +161,39 @@ const upcomingActivity = computed(() => {
 }
 
 .borderr{
-  border: 2px seagreen dotted;
+  border: 5px white dotted;
+  padding: 10px;
 }
 
+.video {
+  display: flex;
+  align-items: center;
+  justify-content: baseline;
+  animation: zoomInOut 5s infinite; /* Apply the zoom-in and zoom-out animation */
+}
+
+.main {
+  background-color: black; /* Set background color to black */
+  color: white; /* Optional: Set text color to white for better contrast */
+  min-height: 100vh; /* Ensure the main container takes up the full height of the viewport */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+@keyframes zoomInOut {
+  0%, 100% {
+    transform: scale(1); /* Initial and final state: no scaling */
+  }
+  50% {
+    transform: scale(0.8); /* Midpoint: zoom in */
+  }
+}
+
+.quote{
+  font-size: 5px;
+}
 
 </style>

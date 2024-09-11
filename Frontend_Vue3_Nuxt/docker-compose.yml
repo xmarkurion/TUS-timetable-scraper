@@ -1,12 +1,20 @@
-version: '3.1'
+# version: '3.1'
+# services:
+#   web_app:
+#     build: 
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: web_app
+#     image: web_app
+#     restart: always
+#     ports:
+#       - "5000:80"
+
 services:
-  web_app:
-    build: 
+  timetable:
+    container_name: timetable_nuxt3
+    build:
       context: .
-      dockerfile: Dockerfile
-    container_name: web_app
-    image: web_app
-    restart: always
     ports:
-      - "5000:80"
-    
+      - "3000:3000"
+    restart: always

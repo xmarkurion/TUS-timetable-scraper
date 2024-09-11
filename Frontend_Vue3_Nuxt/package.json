@@ -21,11 +21,11 @@
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "shadcn-nuxt": "^0.10.4",
+    "@nuxtjs/tailwindcss": "^6.12.1"
   },
   "devDependencies": {
-    "@nuxtjs/tailwindcss": "^6.12.1",
-    "shadcn-nuxt": "^0.10.4",
     "typescript": "^5.5.4"
   }
 }
