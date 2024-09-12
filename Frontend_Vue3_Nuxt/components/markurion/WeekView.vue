@@ -30,8 +30,8 @@ const { data, dayOff,currentDay } = useTableTool(props.data)
 </script>
 
 <template>
-  <div class="main" v-if="!showLive" @click.stop="showLive = !showLive">
-    <div class="header">
+  <div class="main" v-if="!showLive">
+    <div class="header" @click.stop="showLive = !showLive">
         <Card>
           <CardHeader>
             <CardTitle> Now Playing {{ currentDay }}</CardTitle>
