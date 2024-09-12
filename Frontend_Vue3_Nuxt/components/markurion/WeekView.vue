@@ -24,10 +24,6 @@ const props = defineProps<{
 
 const showLive = ref(false)
 
-const linkLive = computed(()=>{
-  return `/${props.courseCode}/live`
-})
-
 // const dataSource = await queryContent('devices').findOne()
 const { data, dayOff,currentDay } = useTableTool(props.data)
 
@@ -92,16 +88,12 @@ const { data, dayOff,currentDay } = useTableTool(props.data)
       <TabsContent v-if="dayOff" value="" >
         <div class="text-center pt-[50px]">Enjoy the weekend.</div>
     </TabsContent>
-  
-  
     </Tabs>
-  
-    <!-- {{ data }} -->
   </div>
   </div>
 
   <div v-else>
-    <MarkurionLiveUpdate :courseCode="props.courseCode"/>
+    <MarkurionLiveUpdate :courseCode="props.courseCode" @back-btn="showLive = !showLive"/>
   </div>
 </template>
 

@@ -4,6 +4,7 @@ import { useNow } from '@vueuse/core'
 import Lecture from '@/components/markurion/Lecture'
 
 const props = defineProps(['courseCode'])
+const emit = defineEmits(['backBtn'])
 
 const data = await queryContent(props.courseCode).findOne()
 // Get the current date and time reactively
@@ -69,11 +70,19 @@ const upcomingActivity = computed(() => {
 </script>
 
 <template>
-  <div class="main">
-    <div class="time">
-        <span>{{ formattedTime.hm  }}</span>
-        <span class="text-xs">:{{formattedTime.seconds}}</span>
+  <div class="main" v-if="data">
+
+    <div class="front">
+      <div class="back">
+        <Button @click="$emit('backBtn')" > Back </Button>
+      </div>
+  
+      <div class="time">
+          <span>{{ formattedTime.hm  }}</span>
+          <span class="text-xs">:{{formattedTime.seconds}}</span>
+      </div>
     </div>
+
     <div class="info">
         <div v-if="upcomingActivity">
           
@@ -136,6 +145,10 @@ const upcomingActivity = computed(() => {
           </div>
     </div>
   </div>
+
+  <div v-else>
+    <MarkurionSuperSpinner :enabled="true"/>
+  </div>
 </template>
 
 <style scoped>
@@ -145,6 +158,12 @@ html, body {
   background-color: black; /* Set background color to black */
   color: white; /* Optional: Set text color to white for better contrast */
   height: 100%;
+}
+
+.front {
+  display: flex;
+  justify-content: space-between;
+  width: 350px;
 }
 
 .time {
