@@ -22,6 +22,8 @@ const props = defineProps<{
     }
 }>()
 
+const showLive = ref(false)
+
 const linkLive = computed(()=>{
   return `/${props.courseCode}/live`
 })
@@ -32,83 +34,93 @@ const { data, dayOff,currentDay } = useTableTool(props.data)
 </script>
 
 <template>
-  <div class="header">
-    <NuxtLink :to="linkLive">
-      <Card>
-        <CardHeader>
-          <CardTitle> Now Playing {{ currentDay }}</CardTitle>
-          <CardDescription>Click to see live what's now what's next.</CardDescription>
-        </CardHeader>
-      </Card>
-    </NuxtLink>
+  <div class="main" v-if="!showLive" @click.stop="showLive = !showLive">
+    <div class="header">
+        <Card>
+          <CardHeader>
+            <CardTitle> Now Playing {{ currentDay }}</CardTitle>
+            <CardDescription>Click to see live what's now what's next.</CardDescription>
+          </CardHeader>
+        </Card>
+    </div>
+  
+    <div class="main"> 
+    <Tabs :default-value="currentDay" class="w-[400px]">
+      <TabsList>
+        <TabsTrigger value="Monday">
+          Monday
+        </TabsTrigger>
+        <TabsTrigger value="Tuesday">
+          Tuesday
+        </TabsTrigger>
+        
+        <TabsTrigger value="Wednesday">
+          Wednesday
+        </TabsTrigger>
+  
+        <TabsTrigger value="Thursday">
+          Thursday
+        </TabsTrigger>
+  
+        <TabsTrigger value="Friday">
+          Friday
+        </TabsTrigger>
+  
+        <TabsTrigger v-if="dayOff" value="">
+        </TabsTrigger>
+  
+      </TabsList>
+      <TabsContent value="Monday">
+        <Break :day="data.Monday"/>
+      </TabsContent>
+  
+      <TabsContent value="Tuesday">
+          <Break :day="data.Tuesday"/>
+      </TabsContent>
+  
+      <TabsContent value="Wednesday">
+          <Break :day="data.Wednesday"/>
+      </TabsContent>
+     
+      <TabsContent value="Thursday">
+          <Break :day="data.Thursday"/>
+      </TabsContent>
+  
+      <TabsContent value="Friday">
+          <Break :day="data.Friday"/>
+      </TabsContent>
+      <TabsContent v-if="dayOff" value="" >
+        <div class="text-center pt-[50px]">Enjoy the weekend.</div>
+    </TabsContent>
+  
+  
+    </Tabs>
+  
+    <!-- {{ data }} -->
+  </div>
   </div>
 
-  <div class="main"> 
-  <Tabs :default-value="currentDay" class="w-[400px]">
-    <TabsList>
-      <TabsTrigger value="Monday">
-        Monday
-      </TabsTrigger>
-      <TabsTrigger value="Tuesday">
-        Tuesday
-      </TabsTrigger>
-      
-      <TabsTrigger value="Wednesday">
-        Wednesday
-      </TabsTrigger>
-
-      <TabsTrigger value="Thursday">
-        Thursday
-      </TabsTrigger>
-
-      <TabsTrigger value="Friday">
-        Friday
-      </TabsTrigger>
-
-      <TabsTrigger v-if="dayOff" value="">
-      </TabsTrigger>
-
-    </TabsList>
-    <TabsContent value="Monday">
-      <Break :day="data.Monday"/>
-    </TabsContent>
-
-    <TabsContent value="Tuesday">
-        <Break :day="data.Tuesday"/>
-    </TabsContent>
-
-    <TabsContent value="Wednesday">
-        <Break :day="data.Wednesday"/>
-    </TabsContent>
-   
-    <TabsContent value="Thursday">
-        <Break :day="data.Thursday"/>
-    </TabsContent>
-
-    <TabsContent value="Friday">
-        <Break :day="data.Friday"/>
-    </TabsContent>
-    <TabsContent v-if="dayOff" value="" >
-      <div class="text-center pt-[50px]">Enjoy the weekend.</div>
-  </TabsContent>
-
-
-  </Tabs>
-
-  <!-- {{ data }} -->
-</div>
+  <div v-else>
+    <MarkurionLiveUpdate :courseCode="props.courseCode"/>
+  </div>
 </template>
 
 <style scoped>
 .header{
   display: flex;
   justify-content: center;
+  :hover{
+    cursor: pointer
+  }
 }
 
 .main{
   padding: 10px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+
 }
 
 </style>

@@ -3,14 +3,9 @@ import { computed } from 'vue'
 import { useNow } from '@vueuse/core'
 import Lecture from '@/components/markurion/Lecture'
 
-// const data = await queryContent('devices').findOne()
+const props = defineProps(['courseCode'])
 
-// Data should be parsed json file with week content
-// Data should be parsed json file with week content
-const props = defineProps({
-    data
-})
-
+const data = await queryContent(props.courseCode).findOne()
 // Get the current date and time reactively
 // const now = useNow({ interval: 60000 }) // Update every minute
 
