@@ -20,7 +20,6 @@ onMounted(async ()=>{
   </div>
   <div v-else>
     <WeekView :data="data" :courseCode="props.courseCode"/>
-    {{ courseCode }}
   </div>
 </template>
 

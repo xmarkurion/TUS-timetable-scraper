@@ -2,5 +2,5 @@
 </script>
 
 <template>
-  <MarkurionWeekViewCompact :courseCode="cloud"/>
+  <MarkurionWeekViewCompact :courseCode="'cloud'"/>
 </template>
