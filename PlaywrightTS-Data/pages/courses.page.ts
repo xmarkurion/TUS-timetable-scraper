@@ -38,8 +38,9 @@ export class Courses{
         }));
 
         const file = JSON.stringify(optionArray)
-        const handy = new FileProcessor()
-        await handy.saveToFile('', 'Available_courses.json', file);
-        console.log("File was saved to Available_courses.json")
+        console.log(file)
+        // const handy = new FileProcessor()
+        // await handy.saveToFile('', 'Available_courses.json', file);
+        // console.log("File was saved to Available_courses.json")
     }
 }
