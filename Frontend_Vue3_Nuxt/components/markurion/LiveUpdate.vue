@@ -155,8 +155,8 @@ const upcomingActivity = computed(() => {
 html, body {
   margin: 0;
   padding: 0;
-  background-color: black; /* Set background color to black */
-  color: white; /* Optional: Set text color to white for better contrast */
+  background-color: black; 
+  color: white;
   height: 100%;
 }
 
@@ -190,13 +190,13 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: baseline;
-  animation: zoomInOut 5s infinite; /* Apply the zoom-in and zoom-out animation */
+  animation: zoomInOut 5s infinite; 
 }
 
 .main {
-  background-color: black; /* Set background color to black */
-  color: white; /* Optional: Set text color to white for better contrast */
-  min-height: 100vh; /* Ensure the main container takes up the full height of the viewport */
+  background-color: black; 
+  color: white; 
+  min-height: 100vh; 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -206,10 +206,10 @@ html, body {
 
 @keyframes zoomInOut {
   0%, 100% {
-    transform: scale(1); /* Initial and final state: no scaling */
+    transform: scale(1); 
   }
   50% {
-    transform: scale(0.8); /* Midpoint: zoom in */
+    transform: scale(0.8); 
   }
 }
 
