@@ -28,7 +28,10 @@ class CourseController extends Controller
     //http://localhost:8000/api/courses/active
     public function indexActive()
     {
-        return Course::where('active', 1)->get()->toJson();
+        $data = Course::where('active', 1)->get();
+        return response()->json([
+            'active' => $data
+        ]);
     }
 
     //http://localhost:8000/api/courses/set/active

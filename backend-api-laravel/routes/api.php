@@ -41,7 +41,6 @@ Route::middleware('auth:sanctum')->group( function () {
     //new group function for course controller
     Route::group(['prefix' => 'courses'], function () {
         Route::get('/', [CourseController::class, 'index']);
-        Route::get('/active', [CourseController::class, 'indexActive']);
 
         // code, active in post
         Route::post('/set/active', [CourseController::class, 'updateActive']);
@@ -55,8 +54,11 @@ Route::middleware('auth:sanctum')->group( function () {
 });
 
 
-// Public
+// Public routes
 Route::group(['prefix' => 'timetable'], function () {
     Route::get('', [TimetableController::class, 'show']);
+});
+Route::group(['prefix' => 'courses'], function () {
+    Route::get('/active', [CourseController::class, 'indexActive']);
 });
 
