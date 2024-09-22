@@ -53,12 +53,49 @@ class TimetableController extends Controller
         ]);
     }
 
+    public function storeAllActive(){
+        $courses = Course::where('active', 1)->get();
+
+        if(!$courses->count()){
+            return response()->json([
+                'message' => 'No active courses found.'
+            ], 400);
+        }
+
+        foreach($courses as $course){
+            GetTimetableJob::dispatch($course);
+        }
+        return response()->json([
+            'message' => 'Process of updating active courses started. This may take some time.',
+            'courses' => $courses->pluck('code')->toArray()
+        ]);
+    }
+
     /**
      * Display the specified resource.
      */
-    public function show(Timetable $timetable)
+    public function show(Request $request)
     {
-        //
+        // Get the course code from the request
+        $request->validate([
+            'code' => 'required|string|exists:courses,code',
+        ]);
+
+        $course = Course::where('code', $request->code)->first();
+
+        // Check if found course is active if not return error
+        if(!$course->active){
+            return response()->json([
+                'message' => 'Course is not active, please activate it first.'
+            ], 400);
+        }
+
+        $decoded = json_decode($course->timetable->data);
+        return response()->json([
+            'course' => $course->code,
+            'timetable' => $decoded,
+            'updated_at' => $course->timetable->updated_at
+        ]);
     }
 
     /**

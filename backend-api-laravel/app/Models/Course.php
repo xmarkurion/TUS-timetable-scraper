@@ -32,6 +32,6 @@ class Course extends Model
     // Relations
     public function timetable()
     {
-        return $this->hasMany(Timetable::class);
+        return $this->hasOne(Timetable::class, 'course_id', 'id');
     }
 }

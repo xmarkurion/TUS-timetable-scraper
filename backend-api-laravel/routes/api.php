@@ -49,6 +49,14 @@ Route::middleware('auth:sanctum')->group( function () {
 
     Route::group(['prefix' => 'timetable'], function () {
         Route::post('/store', [TimetableController::class, 'store']);
+        Route::get('/storeAll', [TimetableController::class, 'storeAllActive']);
+        Route::get('', [TimetableController::class, 'show']);
     });
+});
+
+
+// Public
+Route::group(['prefix' => 'timetable'], function () {
+    Route::get('', [TimetableController::class, 'show']);
 });
 
