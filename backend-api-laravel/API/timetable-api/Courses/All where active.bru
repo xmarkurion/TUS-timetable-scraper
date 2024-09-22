@@ -1,0 +1,15 @@
+meta {
+  name: All where active
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8000/api/courses
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}

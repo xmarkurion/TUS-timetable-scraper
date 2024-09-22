@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\CourseController;
+use App\Services\DataScraperService;
 
 class test extends Command
 {
@@ -14,21 +15,20 @@ class test extends Command
      *
      * @var string
      */
-    protected $signature = 'app:test';
+    protected $signature = 'table:courses';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Fill the courses table with data from the timetable website.';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-      $x = new CourseController();
-      $x->gatherCourses();
+        DataScraperService::gatherCourses();
     }
 }

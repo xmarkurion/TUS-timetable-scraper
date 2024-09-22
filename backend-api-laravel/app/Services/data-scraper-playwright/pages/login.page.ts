@@ -50,11 +50,14 @@ export class TimeTable{
         // await tablePage.start();
 
         const table = await tablePage.timeTable()
-        
+
         //close new page and save data
         const handy = new FileProcessor()
         const file = JSON.stringify(table)
         await handy.saveToFile('TimeTablesJson', this.finalFileName+'.json', file);
         console.log("Saved....")
+        console.log("DATA:START")
+        console.log(file)
+        console.log("DATA:END")
     }
 }

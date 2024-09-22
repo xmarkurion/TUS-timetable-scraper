@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GetTimetableJob;
+use App\Models\Course;
 use App\Models\Timetable;
+use App\Services\DataScraperService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class TimetableController extends Controller
 {
@@ -28,7 +32,25 @@ class TimetableController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'code' => 'required|string|exists:courses,code',
+        ]);
+        $courseCode = $request->code;
+        $course = Course::where('code', $courseCode)->first();
+
+        //Check if found course is active if not return error
+        if(!$course->active){
+            return response()->json([
+                'message' => 'Course is not active, please activate it first.'
+            ], 400);
+        }
+
+        // This will dispatch a job to get the timetable as it may take some time
+        GetTimetableJob::dispatch($course);
+
+        return response()->json([
+            'message' => 'Timetable is being fetched'
+        ]);
     }
 
     /**

@@ -1,0 +1,20 @@
+meta {
+  name: Set active course
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8000/api/courses/set/active
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+body:multipart-form {
+  code: AL_KMOBA_8_2
+  active: 1
+}

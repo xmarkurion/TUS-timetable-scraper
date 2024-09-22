@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test",
-    "courses": "playwright test coursesList.spec.ts"
-  },
+      "test": "playwright test",
+      "check": "playwright test check.spec.ts",
+      "courses": "playwright test coursesList.spec.ts",
+      "timetable": "playwright test timetable.spec.ts"
+      },
   "keywords": [],
   "author": "",
   "license": "ISC",

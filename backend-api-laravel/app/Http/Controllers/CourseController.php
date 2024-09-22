@@ -12,34 +12,40 @@ class CourseController extends Controller
 {
     public function gatherCourses()
     {
+        // Use command to get course list php artisan table:courses - SETUP Only
+        // Make sure playwright can be run in the system before running the command
         DataScraperService::gatherCourses();
-//        $folder = __DIR__ . '/data-scraper-playwright';
-//        $process = Process::path($folder)->run('ls -la', function (string $type, string $output) {
-//            echo $output;
-//        });
-
-        // inside data-scraper-playwright folder
-        // $result = Process::path(__DIR__)->run('ls -la');
-
-//        $process = Process::path(__DIR__)->run('pwd', function (string $type, string $output) {
-//            echo $output;
-//        });
-//
-//        $result = $process->wait();
-//        dd($result);
-
-        // run "npm run courses" system command
-        //  output capture as json file
-
-
-
     }
     /**
      * Display a listing of the resource.
      */
+    //http://localhost:8000/api/courses
     public function index()
     {
-        //
+        return Course::all()->toJson();
+    }
+
+    //http://localhost:8000/api/courses/active
+    public function indexActive()
+    {
+        return Course::where('active', 1)->get()->toJson();
+    }
+
+    //http://localhost:8000/api/courses/set/active
+    public function updateActive(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string|exists:courses,code',
+            'active' => 'required|boolean'
+        ]);
+
+        $message =  "Course " . $request->code . " is now " . ($request->active ? 'active' : 'inactive');
+        $course = Course::setActiveByCode($request->code, $request->active);
+
+        return response()->json([
+            'message' => $message,
+            'course' => $course
+        ]);
     }
 
     /**

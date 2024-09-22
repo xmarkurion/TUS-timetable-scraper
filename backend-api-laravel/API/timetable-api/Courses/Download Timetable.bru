@@ -1,0 +1,19 @@
+meta {
+  name: Download Timetable
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8000/api/timetable/store
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+body:multipart-form {
+  code: AL_KMOBA_8_2
+}
