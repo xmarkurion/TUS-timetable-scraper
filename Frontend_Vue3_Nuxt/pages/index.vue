@@ -13,7 +13,7 @@ import {
 import { useCourses } from '~/data/courses';
 import SuperSpinner from '~/components/markurion/SuperSpinner.vue';
 
-const { status, courses } = useCourses();
+const { status, courses } = await useCourses();
 
 // should return time in format day/month/year hour:minute
 const fixTime = (timestamp: string): string => {
@@ -24,10 +24,15 @@ const fixTime = (timestamp: string): string => {
 </script>
 
 <template>
-<div v-if="!status">
-  aaaa
+<div v-if="status==='idle' || status==='pending'">
   <SuperSpinner :enabled="true"/>
 </div>
+
+<div v-if="status==='error'">
+  I can only see the sky. Please try again later.
+</div>
+
+
 <div v-else>
   <Table>
     <TableCaption>A list of time tables.</TableCaption>

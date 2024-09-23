@@ -3,6 +3,8 @@ import { computed } from 'vue'
 import { useNow } from '@vueuse/core'
 import Lecture from '@/components/markurion/Lecture'
 
+import { getTable } from '~/data/tables';
+
 const props = defineProps(['courseCode'])
 const emit = defineEmits(['backBtn'])
 

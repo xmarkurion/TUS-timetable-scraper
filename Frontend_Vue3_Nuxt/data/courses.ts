@@ -14,8 +14,8 @@ type CourseTypeGlobal = {
   active: CourseTypeLocal[];
 };
 
-export function useCourses() {
-  const { status, data } = useFetch<CourseTypeGlobal>('http://localhost:8000/api/courses/active', { lazy: false });
+export async function useCourses() {
+  const { status, data } = await useFetch<CourseTypeGlobal>('http://localhost:8000/api/courses/active', { lazy: false });
   const courses = ref<CourseTypeGlobal>(data.value || { active: [] });
 
   return { status, courses };
