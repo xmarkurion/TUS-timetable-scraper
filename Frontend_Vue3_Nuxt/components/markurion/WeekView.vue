@@ -15,10 +15,9 @@ import type { ParsedContent } from '@nuxt/content';
 
 // Data should be parsed json file with week content
 const props = defineProps<{
-    data: ParsedContent,
+    data: any,
     courseCode: {
-      type: String,
-      default: "devices"
+      type: string
     }
 }>()
 

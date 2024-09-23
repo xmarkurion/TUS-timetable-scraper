@@ -10,9 +10,25 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useCourses } from '~/data/courses';
+import SuperSpinner from '~/components/markurion/SuperSpinner.vue';
+
+const { status, courses } = useCourses();
+
+// should return time in format day/month/year hour:minute
+const fixTime = (timestamp: string): string => {
+  const date = new Date(timestamp);
+  return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+}
+
 </script>
 
 <template>
+<div v-if="!status">
+  aaaa
+  <SuperSpinner :enabled="true"/>
+</div>
+<div v-else>
   <Table>
     <TableCaption>A list of time tables.</TableCaption>
     <TableHeader>
@@ -21,6 +37,7 @@ import {
           Course short code
         </TableHead>
         <TableHead>Details</TableHead>
+        <TableHead>Updated at</TableHead>
         <TableHead class="text-right">
           Action
         </TableHead>
@@ -28,34 +45,21 @@ import {
     </TableHeader>
     <TableBody>
 
-      <TableRow>
+      <TableRow v-for="course in courses.active">
         <TableCell class="font-medium">
-          AL_KMOBA_8_4
+          {{ course.code }}
         </TableCell>
-        <TableCell>Connected Devices</TableCell>
+        <TableCell>{{ course.description }}</TableCell>
+        <TableCell class="text-right">{{ fixTime(course.updated_at) }}</TableCell>
         <TableCell class="text-right">
-          <NuxtLink :to="'/devices'">
+          <NuxtLink :to="{name: 'universal-code', params: {code: course.code } }">
             <Button variant="outline" size="icon">
               <ChevronRight class="w-4 h-4" />
             </Button>
           </NuxtLink>
         </TableCell>
       </TableRow>
-
-      <TableRow>
-        <TableCell class="font-medium">
-          AL_KAICC_8_4
-        </TableCell>
-        <TableCell>Cloud with AI</TableCell>
-        <TableCell class="text-right">
-          <NuxtLink :to="'/cloud'">
-            <Button variant="outline" size="icon">
-              <ChevronRight class="w-4 h-4" />
-            </Button>
-          </NuxtLink>
-        </TableCell>
-      </TableRow>
-
     </TableBody>
   </Table>
+</div>
 </template>
