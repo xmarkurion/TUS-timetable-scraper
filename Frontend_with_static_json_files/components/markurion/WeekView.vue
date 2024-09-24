@@ -15,8 +15,11 @@ import type { ParsedContent } from '@nuxt/content';
 
 // Data should be parsed json file with week content
 const props = defineProps<{
-    data: any,
-    courseCode: string
+    data: ParsedContent,
+    courseCode: {
+      type: String,
+      default: "devices"
+    }
 }>()
 
 const showLive = ref(false)
@@ -90,7 +93,7 @@ const { data, dayOff,currentDay } = useTableTool(props.data)
   </div>
 
   <div v-else>
-    <MarkurionLiveUpdate :data="data" @back-btn="showLive = !showLive"/>
+    <MarkurionLiveUpdate :courseCode="props.courseCode" @back-btn="showLive = !showLive"/>
   </div>
 </template>
 

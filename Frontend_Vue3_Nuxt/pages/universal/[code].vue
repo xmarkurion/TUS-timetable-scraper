@@ -14,8 +14,6 @@ const { status, table } = await getTable(code);
     </div>
 
     <div v-if="status==='success'">
-        <!-- {{ code }}
-        {{ table }} -->
         <MarkurionWeekView :data="table?.timetable" :courseCode="code"/>
     </div> 
 </template>

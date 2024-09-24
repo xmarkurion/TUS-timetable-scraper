@@ -11,7 +11,7 @@ type WeekType = {
     Friday: Activity[];
 }
 
-type Activity = {
+export type Activity = {
     Activity: string | null;
     Module: string | null;
     Type: string | null;

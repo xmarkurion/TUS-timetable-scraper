@@ -1,19 +1,17 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import { useNow } from '@vueuse/core'
 import Lecture from '@/components/markurion/Lecture'
 
-import type { Activity } from '~/data/tables';
-
-const props = defineProps<{
-    data: Activity,
-}>()
-const data = props.data
-
+const props = defineProps(['courseCode'])
 const emit = defineEmits(['backBtn'])
 
+const data = await queryContent(props.courseCode).findOne()
+// Get the current date and time reactively
+// const now = useNow({ interval: 60000 }) // Update every minute
 
 const now = useNow() // Update every minute
+// const now = ref(new Date(1726017817000))
 
 // Format the current time as hh:mm:ss
 const formattedTime = computed(() => {

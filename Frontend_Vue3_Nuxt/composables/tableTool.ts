@@ -1,7 +1,7 @@
 
 import { useAsyncState } from "@vueuse/core"
 
-export default function useTableTool(data){
+export default function useTableTool(data: any){
     
     // The old way still handy for reference
     // const data = await queryContent(tableSource).findOne()
