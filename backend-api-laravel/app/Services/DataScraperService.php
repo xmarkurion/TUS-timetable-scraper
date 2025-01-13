@@ -156,12 +156,16 @@ class DataScraperService
         $folder = __DIR__ . '/data-scraper-playwright';
         $output = '';
 
-        // run works differently than start as it waits for the process to finish
         $process = Process::path($folder)->run('npm run timetable', function (string $type, string $buffer) use (&$output) {
-            if (preg_match('/DATA:START(.*?)DATA:END/s', $buffer, $matches)) {
-                $output .= $matches[1];
-            }
+            echo $buffer;
+            $output .= $buffer;
         });
-        return $output;
+
+        $process->wait();
+
+        // match text from DATA:START to DATA:END
+        if (preg_match('/DATA:START(.*?)DATA:END/s', $output, $matches)) {
+            return $matches[1];
+        }
     }
 }

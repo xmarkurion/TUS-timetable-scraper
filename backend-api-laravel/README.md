@@ -24,7 +24,7 @@ flush privileges;
    - Then if os is missing dependencies it will ask to run sudo npx playwright install-deps
 6. Then you need to fill courses list from using `php artisan api load_courses_list`
 7. Now api is ready to request course to activate. ( See API USAGE set course as active)
-8. 
+8. Now its important to run queue deamon by `php artisan queue:work` 
 
 ---
 # API Usage
@@ -54,6 +54,12 @@ http://localhost:8000/api/courses/set/active
 With header Authorization Bearer {{token}}
 With body ( code , active )
 ```
+
+## Timetable
+Here you can download timetable for give course
+### Download All timetables
+### Download Specific timetable
+
 ---
 
 
