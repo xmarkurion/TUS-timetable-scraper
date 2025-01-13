@@ -8,6 +8,7 @@ use App\Models\Timetable;
 use App\Services\DataScraperService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use function PHPUnit\Framework\isNull;
 
 class TimetableController extends Controller
 {
@@ -87,6 +88,13 @@ class TimetableController extends Controller
         if(!$course->active){
             return response()->json([
                 'message' => 'Course is not active, please activate it first.'
+            ], 400);
+        }
+
+        // Check if there are any timetables associated with the given course code
+        if(!$course->timetable){
+            return response()->json([
+                'message' => 'Course is active, but there is no timetable downloaded for it.'
             ], 400);
         }
 
