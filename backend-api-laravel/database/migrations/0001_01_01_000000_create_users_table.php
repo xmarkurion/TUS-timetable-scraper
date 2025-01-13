@@ -21,6 +21,15 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        // Hardcode admin user
+        DB::table('users')->insert([
+            'name' => 'Admin',
+            'email' => 'timetable@timetable.timetable',
+            'password' => bcrypt('timetable'),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');

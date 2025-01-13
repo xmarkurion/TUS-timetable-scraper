@@ -1,3 +1,28 @@
+# Setup environment
+1. Set mysql connection
+2. Create new database with user.
+```sql
+CREATE DATABASE `tustable` /*!40100 COLLATE 'utf8mb4_general_ci' */;
+CREATE USER 'tustable'@'localhost' IDENTIFIED BY 'tustable';
+GRANT ALL PRIVILEGES ON `tustable`.* TO 'tustable'@'localhost';
+FLUSH PRIVILEGES;
+```
+or
+
+```sql
+create database tustable;
+grant all on tustable.* to tustable@localhost identified by 'tustable';\
+flush privileges;
+```
+3. Execute `php artisan migrate`
+4. Now most commands could be found under commands api.php
+5. Use `php artisan api1` to get the list of all available commands.
+5. Check if playwright integration works by running `php artisan api check`
+   - This will run `npm install` under hood
+   - It will check if playwright browsers are installed
+
+---
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

@@ -17,6 +17,40 @@ class DataScraperService
         });
         // awaits process termination
         $process->wait();
+
+        // check if this "playwright: not found" ask user if it's okay to install requirements
+        if(Str::contains($output, 'playwright: not found')){
+            echo 'Playwright not found, do you want to install it? (y/n)';
+            $handle = fopen ("php://stdin","r");
+            $line = fgets($handle);
+            if(trim($line) != 'y' && trim($line) != 'Y'){
+                echo 'Exiting script will not work until playwright is installed...';
+                exit;
+            }
+            echo 'Installing playwright...';
+            $process = Process::path($folder)->start('npm install', function (string $type, string $buffer) use (&$output) {
+                $output .= $buffer;
+            });
+            $process->wait();
+        }
+
+        // check if this "npx playwright install" ask user if it's okay to install requirements
+        if(Str::contains($output, 'npx playwright install')){
+            echo 'Playwright browser not installed, do you want to install them (y/n)';
+            $handle = fopen ("php://stdin","r");
+            $line = fgets($handle);
+            if(trim($line) != 'y' && trim($line) != 'Y'){
+                echo 'Exiting script will not work until playwright browsers are is installed...';
+                exit;
+            }
+            echo 'Installing playwright browsers...';
+            $process = Process::path($folder)->timeout(500)->start('npx playwright install', function (string $type, string $buffer) use (&$output) {
+                $output .= $buffer;
+            });
+            $process->wait();
+        }
+
+        echo 'Checks successfully completed, scraper should work correctly';
         return $output;
     }
 

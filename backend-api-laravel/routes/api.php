@@ -9,23 +9,30 @@ use App\Http\Controllers\CourseController;
 // Call this as body in postman
 Route::post('/key', function (Request $request) {
     if($request->device_name == null) {
-        return response()->json([
-            'error' => 'Device name is required'
-        ], 401);
+        return response()->json(['error' => 'Device name is required'], 401);
     }
 
-    $crededentials = $request->only('email', 'password');
-    if(!auth()->attempt($crededentials)){
+    $credentials = $request->only('email', 'password');
+
+    if (!auth()->attempt($credentials)) {
+        return response()->json(['error' => 'Invalid credentials'], 401);
+    }
+
+    //check if token name is in personal_access_tokens table
+    $token = $request->user()->tokens()->where('name', $request->device_name)->first();
+
+    // if name is in personal_access_tokens table, return the token, and note that the token is the same
+
+    if($token){
         return response()->json([
-            'error' => 'Invalid credentials'
-        ], 401);
-    }else{
-        $token_name = $request->device_name;
-        $token = $request->user()->createToken($token_name);
-        return response()->json([
-            'token' => $token->plainTextToken
+            'message' => 'Token already exists create new name or delete the old one'
         ]);
     }
+
+    //if name is not in personal_access_tokens table, create a new token
+   $token = $request->user()->createToken($request->device_name);
+    return response()->json(['token' => $token->plainTextToken]);
+
 });
 
 // Api authenticated user data.
