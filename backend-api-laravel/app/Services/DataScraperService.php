@@ -15,8 +15,15 @@ class DataScraperService
         $process = Process::path($folder)->start('npm run check', function (string $type, string $buffer) use (&$output) {
             $output .= $buffer;
         });
+
         // awaits process termination
         $process->wait();
+
+        // check if this "If you see this all is good!" then scraper works
+        if(Str::contains($output, 'If you see this all is good!')){
+            echo 'Scraper works correctly';
+            return "Check done. Rerun to make sure all works OK.";
+        }
 
         // check if this "playwright: not found" ask user if it's okay to install requirements
         if(Str::contains($output, 'playwright: not found')){
@@ -50,23 +57,45 @@ class DataScraperService
             $process->wait();
         }
 
+        // check if this "Host system is missing dependencies to run browsers." ask user if it's okay to install requirements
+        if(Str::contains($output, 'Host system is missing dependencies to run browsers.')){
+            echo 'Host system is missing dependencies to run browsers, do you want to install them (y/n)';
+            $handle = fopen ("php://stdin","r");
+            $line = fgets($handle);
+            if(trim($line) != 'y' && trim($line) != 'Y'){
+                echo 'Exiting script will not work until playwright browsers are working.';
+                exit;
+            }
+            echo 'Installing playwright browsers...';
+            $process = Process::path($folder)->timeout(500)->start('sudo npx playwright install-deps', function (string $type, string $buffer) {
+                echo $buffer;
+            });
+            $process->wait();
+        }
+
         echo 'Checks successfully completed, scraper should work correctly';
-        return $output;
+        return "Check done. Rerun to make sure all works OK.";
     }
 
     public static function gatherCourses()
     {
         $folder = __DIR__ . '/data-scraper-playwright';
         $output = '';
+
         $process = Process::path($folder)->start('npm run courses', function (string $type, string $buffer) use (&$output) {
-            if (preg_match('/DATA:START(.*?)DATA:END/s', $buffer, $matches)) {
-                $output .= $matches[1];
-            }
+            echo $buffer;
+            $output .= $buffer;
         });
 
         // awaits process termination
         $result = $process->wait();
 
+        // from output get only the data between DATA:START and DATA:END
+        if (preg_match('/DATA:START(.*?)DATA:END/s', $output, $matches)) {
+            $output = $matches[1];
+        }
+
+        // Check if there is any data
         $length = Str::of($output)->length();
         if(!$length > 0){
             echo 'No data found';
@@ -104,6 +133,7 @@ class DataScraperService
                 $n -> code = $course['code'];
                 $n -> description = $course['description'];
                 $n -> save();
+                dump('Course ' . $course['code'] . ' added to database');
             }
         }
     }

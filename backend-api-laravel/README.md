@@ -18,10 +18,44 @@ flush privileges;
 4. Now most commands could be found under commands api.php
 5. Use `php artisan api1` to get the list of all available commands.
 5. Check if playwright integration works by running `php artisan api check`
-   - This will run `npm install` under hood
+   - This will run npm install under hood
    - It will check if playwright browsers are installed
+   - if not it will ask to run npx playwright install
+   - Then if os is missing dependencies it will ask to run sudo npx playwright install-deps
+6. Then you need to fill courses list from using `php artisan api load_courses_list`
+7. Now api is ready to request course to activate. ( See API USAGE set course as active)
+8. 
 
 ---
+# API Usage
+See bruno preset for more details.
+## Authenticate user - generate token by api
+```
+POST to http://localhost:8000/api/key
+With body (email , password , device_name)
+```
+This will return the token for login
+
+## Course
+### Show all 
+Returns list of all courses
+```
+http://localhost:8000/api/courses
+With header Authorization Bearer {{token}}
+```
+### Show all where course is set as active
+```
+http://localhost:8000/api/courses/active
+With header Authorization Bearer {{token}}
+```
+### Set course as active 
+```
+http://localhost:8000/api/courses/set/active
+With header Authorization Bearer {{token}}
+With body ( code , active )
+```
+---
+
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
