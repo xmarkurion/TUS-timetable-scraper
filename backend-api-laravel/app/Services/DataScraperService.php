@@ -156,16 +156,25 @@ class DataScraperService
         $folder = __DIR__ . '/data-scraper-playwright';
         $output = '';
 
-        $process = Process::path($folder)->run('npm run timetable', function (string $type, string $buffer) use (&$output) {
-            echo $buffer;
+        Process::path($folder)->run('npm run timetable', function (string $type, string $buffer) use (&$output) {
             $output .= $buffer;
         });
 
-        $process->wait();
+        // Here deleting process wait solved the case
 
-        // match text from DATA:START to DATA:END
         if (preg_match('/DATA:START(.*?)DATA:END/s', $output, $matches)) {
-            return $matches[1];
+            $output = $matches[1];
         }
+
+        // Check if there is any data
+        $length = Str::of($output)->length();
+        if(!$length > 0){
+            echo 'No data found';
+            return;
+        }
+
+        // Star decoding the json data
+        $out = json_decode($output, true);
+        return $out;
     }
 }
