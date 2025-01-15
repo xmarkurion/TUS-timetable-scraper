@@ -35,6 +35,9 @@ class GetTimetableJob implements ShouldQueue
 
     public function handle(): void
     {
+        // Retrieve timetable
+        $timetable = Timetable::where('course_id', $this->id)->first();
+
         // make an info that with the course code
         dump("$this->name: Gathering timetable data for course: $this->code");
         $data = DataScraperService::getTimetable($this->code);
@@ -53,9 +56,6 @@ class GetTimetableJob implements ShouldQueue
             dump("$this->name: Timetable data for course: $this->code is too short.");
             $this->fail();
         }
-
-        // Retrieve timetable
-        $timetable = Timetable::where('course_id', $this->id)->first();
 
         // If timetable record exist update it with data
         if ($timetable) {
