@@ -24,6 +24,7 @@ class GetTimetableJob implements ShouldQueue
     {
         $this->code = $course->code;
         $this->id = $course->id;
+
         // get current php class name
         $this->name = get_class($this);
     }
@@ -31,56 +32,43 @@ class GetTimetableJob implements ShouldQueue
     /**
      * Execute the job.
      */
-//    public function handle(): void
-//    {
-//        dump("$this->name: Gathering timetable data for course: $this->code");
-//        $data =  DataScraperService::getTimetable($this->code);
-//
-//        dump("$this->name: Checking if timetable exists for course: $this->code");
-//        $timetable = Timetable::where('course_id', $this->id)->first();
-//
-//        if($timetable){
-//            $timetable->data = $data;
-//            $timetable->save();
-//            dump("$this->name: Timetable updated with data.");
-//            return;
-//        }
-//
-//        //If no create a new timetable
-//        $timetable = new Timetable();
-//        $timetable->course_id = $this->id;
-//        $timetable->data = $data;
-//        $timetable->save();
-//        dump("$this->name: Timetable created with data.");
-//    }
 
     public function handle(): void
     {
         // make an info that with the course code
         dump("$this->name: Gathering timetable data for course: $this->code");
         $data = DataScraperService::getTimetable($this->code);
+        $data = json_encode($data, JSON_PRETTY_PRINT);
 
         if (empty($data)) {
             dump("$this->name: No data received for course: $this->code");
             return;
         }
 
-        // the id flowing.
+        // Display information about mount strings downloaded
+        dump("$this->name: Gathered string length: ".strlen($data));
 
-        dump("$this->name: Checking if timetable exists for course: $this->code");
+        // if string is < 50 fail the job
+        if (strlen($data) < 50) {
+            dump("$this->name: Timetable data for course: $this->code is too short.");
+            $this->fail();
+        }
+
+        // Retrieve timetable
         $timetable = Timetable::where('course_id', $this->id)->first();
 
+        // If timetable record exist update it with data
         if ($timetable) {
             $timetable->data = $data;
             $timetable->save();
-            dump("$this->name: Timetable updated with data.");
+            dump("$this->name: Timetable ".$this->code." updated with data.");
         } else {
-            // If no timetable exists, create a new one
+            // If no timetable exists, create a new one record and add data.
             $timetable = new Timetable();
             $timetable->course_id = $this->id;
             $timetable->data = $data;
             $timetable->save();
-            dump("$this->name: Timetable created with data.");
+            dump("$this->name: Timetable ".$this->code." created with data.");
         }
     }
 }
