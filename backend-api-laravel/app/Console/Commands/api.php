@@ -41,9 +41,9 @@ class api extends Command
         if($this->argument('action') == 'create-user'){
             $this->info('Creating user...');
             //ask for user details
-            $name = $this->ask('Enter name');
-            $email = $this->ask('Enter email');
-            $password = $this->secret('Enter password');
+            $name = $this->ask('Enter name: ');
+            $email = $this->ask('Enter email: ');
+            $password = $this->secret('Enter password: ');
 
             $user = User::create([
                 'name' => $name,

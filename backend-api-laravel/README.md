@@ -1,5 +1,6 @@
 # Setup environment
-1. Set mysql connection
+0. Set ENV file witth mysql connection.
+1. Generate app key `php artisan key:generate`.  !important
 2. Create new database with user.
 ```sql
 CREATE DATABASE `tustable` /*!40100 COLLATE 'utf8mb4_general_ci' */;
