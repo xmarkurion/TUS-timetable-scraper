@@ -23,15 +23,24 @@ export type Activity = {
     Staff: string | null;
     StudentGroup: string | null;
 }
+
 export async function getTable(code: string) {
-    const { status, data:table } = await useFetch<requestType>(
-        `http://localhost:8000/api/timetable?code=${code}`,
-         { 
-            lazy: false, 
-            server: false 
+    try {
+        const response = await fetch(`http://localhost:8000/api/timetable?code=${code}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            console.error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            console.error('Error details:', errorText);
+            return { status: 'error', table: null };
         }
-    );
-    return { status, table };
-
+        const data = await response.json();
+        return { status: 'success', table: data };
+    } catch (error) {
+        console.error('Fetch error:', error);
+        return { status: 'error', table: null };
+    }
 }
-

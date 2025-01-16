@@ -109,7 +109,6 @@ const { data, dayOff,currentDay } = useTableTool(props.data)
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
 }
 
 </style>

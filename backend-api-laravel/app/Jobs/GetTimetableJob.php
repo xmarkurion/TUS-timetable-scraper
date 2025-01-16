@@ -60,6 +60,7 @@ class GetTimetableJob implements ShouldQueue
         // If timetable record exist update it with data
         if ($timetable) {
             $timetable->data = $data;
+            $timetable->updated_at = now();
             $timetable->save();
             dump("$this->name: Timetable ".$this->code." updated with data.");
         } else {
