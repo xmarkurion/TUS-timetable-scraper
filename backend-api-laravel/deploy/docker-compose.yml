@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
     laravel:
         restart: unless-stopped
@@ -40,7 +38,7 @@ services:
 
     database:
         restart: unless-stopped
-        image: mariadb:lts-jammy
+        image: mariadb:lts-ubi
         volumes:
             - v-database:/var/lib/mysql
         environment:
