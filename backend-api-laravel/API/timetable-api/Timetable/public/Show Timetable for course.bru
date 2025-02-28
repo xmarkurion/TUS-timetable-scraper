@@ -1,0 +1,15 @@
+meta {
+  name: Show Timetable for course
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8000/api/timetable?code=AL_KMOBA_8_4
+  body: none
+  auth: none
+}
+
+params:query {
+  code: AL_KMOBA_8_4
+}
