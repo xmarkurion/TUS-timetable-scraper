@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RequestTableController;
 use App\Http\Controllers\TimetableController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -57,6 +58,12 @@ Route::middleware('auth:sanctum')->group( function () {
         Route::get('/storeAll', [TimetableController::class, 'storeAllActive']);
         Route::get('', [TimetableController::class, 'show']);
     });
+
+    Route::group(['prefix' => 'requests'], function () {
+        Route::get('', [RequestTableController::class, 'showPendingRequests']);
+        Route::get('/accept', [RequestTableController::class, 'acceptAllRequests']);
+        Route::post('/accept', [RequestTableController::class, 'acceptSelectedIdRequest']);
+    });
 });
 
 
@@ -65,9 +72,10 @@ Route::group(['prefix' => 'timetable'], function () {
     Route::get('', [TimetableController::class, 'show']);
 });
 
-//vPublic routes for courses
+// Public routes for courses
 Route::group(['prefix' => 'courses'], function () {
     Route::get('/', [CourseController::class, 'index']);
     Route::get('/active', [CourseController::class, 'indexActive']);
+    Route::post('/request', [RequestTableController::class, 'store']);
 });
 

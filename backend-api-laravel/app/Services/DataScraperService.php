@@ -73,7 +73,8 @@ class DataScraperService
             $process->wait();
         }
 
-        echo 'Checks successfully completed, scraper should work correctly';
+        echo 'Checks successfully completed, scraper should work correctly. ';
+        echo '_';
         return "Check done. Rerun to make sure all works OK.";
     }
 
@@ -175,6 +176,53 @@ class DataScraperService
 
         // Star decoding the json data
         $out = json_decode($output, true);
+        return $out;
+    }
+
+    //This operation involves running a Playwright test to get the timetable of a course with a given code.
+    // Debug the output for any errors use if needed
+    public static function getTimetableDebug($code)
+    {
+        // create json file under data-scraper-playwright/data/course.json with $code value
+        $data = [
+            'course' => $code,
+        ];
+        $jsonData = json_encode($data, JSON_PRETTY_PRINT);
+        $filePath = base_path('app/Services/data-scraper-playwright/data/course.json');
+        File::put($filePath, $jsonData);
+
+        // playwright test timetable.spec.ts
+        $folder = __DIR__ . '/data-scraper-playwright';
+        $output = '';
+
+        Process::path($folder)->run('npm run timetable', function (string $type, string $buffer) use (&$output) {
+            $output .= $buffer;
+        });
+
+        // Log the output for debugging
+        echo "Output: " . $output;
+
+        if (preg_match('/DATA:START(.*?)DATA:END/s', $output, $matches)) {
+            $output = $matches[1];
+        } else {
+            echo "No match found for DATA:START and DATA:END";
+            return null;
+        }
+
+        // Check if there is any data
+        $length = Str::of($output)->length();
+        if (!$length > 0) {
+            echo 'No data found';
+            return null;
+        }
+
+        // Start decoding the json data
+        $out = json_decode($output, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo 'JSON decode error: ' . json_last_error_msg();
+            return null;
+        }
+
         return $out;
     }
 }

@@ -1,11 +1,11 @@
 meta {
-  name: Set active course
+  name: Accept selected pending course
   type: http
-  seq: 1
+  seq: 3
 }
 
 post {
-  url: {{w}}/api/courses/set/active
+  url: {{w}}/api/requests/accept
   body: multipartForm
   auth: none
 }
@@ -15,6 +15,5 @@ headers {
 }
 
 body:multipart-form {
-  code: AL_KMOBA_8_3
-  active: 0
+  id: 5
 }

@@ -50,11 +50,13 @@ class GetTimetableJob implements ShouldQueue
 
         // Display information about mount strings downloaded
         dump("$this->name: Gathered string length: ".strlen($data));
+        dump($data);
 
         // if string is < 50 fail the job
         if (strlen($data) < 50) {
             dump("$this->name: Timetable data for course: $this->code is too short.");
             $this->fail();
+            return;
         }
 
         // If timetable record exist update it with data

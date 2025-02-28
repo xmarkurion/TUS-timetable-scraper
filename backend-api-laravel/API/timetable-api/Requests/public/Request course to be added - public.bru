@@ -1,0 +1,15 @@
+meta {
+  name: Request course to be added - public
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{w}}/api/courses/request
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  code: AL_KMOBA_8_
+}
