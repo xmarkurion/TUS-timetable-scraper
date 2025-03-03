@@ -22,7 +22,11 @@ class CourseController extends Controller
     //http://localhost:8000/api/courses
     public function index()
     {
-        return Course::all()->toJson();
+//        return Course::all()->toJson();
+        $courses = Course::all();
+        return response()->json([
+            'courses' => $courses
+        ]);
     }
 
     //http://localhost:8000/api/courses/active

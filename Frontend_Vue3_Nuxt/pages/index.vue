@@ -32,7 +32,6 @@ const fixTime = (timestamp: string): string => {
   I can only see the sky. Please try again later.
 </div>
 
-
 <div v-else>
   <Table>
     <TableCaption>A list of time tables.</TableCaption>
@@ -67,4 +66,13 @@ const fixTime = (timestamp: string): string => {
     </TableBody>
   </Table>
 </div>
+
+
+<div class="bottom-0 left-0 right-0 p-1 bg-white border-t border-gray-200 flex justify-center p-4">
+    <NuxtLink to="/request">
+      <Button variant="outline" size="sm">
+        Request to add a new course
+      </Button>
+    </NuxtLink>
+  </div>
 </template>
