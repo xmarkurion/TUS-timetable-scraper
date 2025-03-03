@@ -10,11 +10,11 @@ export type CourseTypeLocal = {
   updated_at: string;
 };
 
-type CourseTypeActive = {
+export type CourseTypeActive = {
     active: CourseTypeLocal[];
 }
 
-type CourseTypeAll = {
+export type CourseTypeAll = {
   courses: CourseTypeLocal[];
 }
 
@@ -27,7 +27,16 @@ export async function useCourses() {
 
 export async function useAllCourses() {
   const { status, data } = await useFetch<CourseTypeAll>('http://localhost:8000/api/courses', { lazy: false });
-  const courses = ref<CourseTypeLocal[]>(data.value || { courses: [] });
+  const courses_data = ref<CourseTypeAll>(data.value || { courses: [] });
 
-  return { status, courses };
+  return { status, courses_data };
+}
+
+
+export function toLowerCasePro(course: CourseTypeLocal): CourseTypeLocal {
+  return {
+    ...course,
+    code: course.code.toLowerCase(),
+    description: course.description.toLowerCase(),
+  };
 }

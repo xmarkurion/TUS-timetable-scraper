@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { CourseTypeLocal } from "~/data/courses";
+import type { CourseTypeLocal, CourseTypeAll } from "~/data/courses";
+import { toLowerCasePro } from "~/data/courses";
 import { Button } from '@/components/ui/button'
-import { ChevronRight, Search } from 'lucide-vue-next'
+import { ChevronRight, Search, DiamondPlus } from 'lucide-vue-next'
 import {
   Table,
   TableBody,
@@ -13,15 +14,31 @@ import {
 } from '@/components/ui/table'
 import { useAllCourses } from '~/data/courses';
 import SuperSpinner from '~/components/markurion/SuperSpinner.vue';
+import { ref, watch, computed } from 'vue';
+import NewRequest from "~/components/markurion/NewRequest.vue";
 
-const { status, courses } = await useAllCourses();
-console.log(status,courses);
-// search in courses by code or description
-const search = (query: string) => {
-  return courses.courses.filter((course: CourseTypeLocal[]) => {
-    return course.code.includes(query) || course.description.includes(query);
-  });
-}
+// Query all courses
+const { status, courses_data } = await useAllCourses();
+
+// Create a reactive property for the search input
+const searchQuery = ref('');
+
+// Computed property to filter courses based on searchQuery
+const filteredCourses = ref<CourseTypeLocal[]>(courses_data.value.courses);
+
+// Add a watcher to update the filteredCourses when the searchQuery changes
+watch(searchQuery, (newQuery) => {
+  if (!courses_data.value || !courses_data.value.courses) {
+    filteredCourses.value = [];
+  } else {
+    const lowerCaseQuery = newQuery.toLowerCase();
+    const regex = new RegExp(lowerCaseQuery, 'i');
+    filteredCourses.value = courses_data.value.courses.filter((course: CourseTypeLocal) => {
+      course = toLowerCasePro(course);
+      return regex.test(course.code) || regex.test(course.description);
+    });
+  }
+});
 
 // should return time in format day/month/year hour:minute
 const fixTime = (timestamp: string): string => {
@@ -43,13 +60,14 @@ const fixTime = (timestamp: string): string => {
   <div v-else>
     <div class="flex">
       <div class="p-2 relative w-full items-center">
-        <Input id="search" type="text" placeholder="Search..." class="pl-10" />
+        <Input v-model="searchQuery" id="id_search" name="name_search" type="text" placeholder="Search..." class="pl-10" />
         <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
           <Search class="text-muted-foreground" />
         </span>
       </div>
     </div>
 
+    <div class="p-4 border-spacing-1 border">
     <Table>
       <TableCaption>A list of time tables.</TableCaption>
       <TableHeader>
@@ -58,29 +76,26 @@ const fixTime = (timestamp: string): string => {
             Course short code
           </TableHead>
           <TableHead>Details</TableHead>
-          <TableHead>Updated at</TableHead>
           <TableHead class="text-right">
             Action
           </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow v-for="course in courses.courses">
+<!--        <TableRow v-for="course in courses.courses">-->
+          <TableRow v-for="course in filteredCourses" :key="course.id">
           <TableCell class="font-medium">
             {{ course.code }}
           </TableCell>
           <TableCell>{{ course.description }}</TableCell>
-          <TableCell class="text-right">{{ fixTime(course.updated_at) }}</TableCell>
           <TableCell class="text-right">
-<!--            <NuxtLink :to="{name: 'universal-code', params: {code: course.code } }">-->
-<!--              <Button variant="outline" size="icon">-->
-<!--                <ChevronRight class="w-4 h-4" />-->
-<!--              </Button>-->
-<!--            </NuxtLink>-->
+            <NewRequest :course_code="course.code" :course_id="course.id"/>
           </TableCell>
         </TableRow>
       </TableBody>
     </Table>
+    </div>
+
   </div>
 
 
