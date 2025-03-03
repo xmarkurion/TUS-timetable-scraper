@@ -53,7 +53,13 @@ const fixTime = (timestamp: string): string => {
         <TableCell class="font-medium">
           {{ course.code }}
         </TableCell>
-        <TableCell>{{ course.description }}</TableCell>
+
+        <TableCell>
+          <NuxtLink :to="{name: 'universal-code', params: {code: course.code } }">
+          {{ course.description }}
+          </NuxtLink>
+        </TableCell>
+
         <TableCell class="text-right">{{ fixTime(course.updated_at) }}</TableCell>
         <TableCell class="text-right">
           <NuxtLink :to="{name: 'universal-code', params: {code: course.code } }">

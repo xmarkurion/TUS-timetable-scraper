@@ -1,7 +1,7 @@
 
 import { ref } from 'vue';
 
-type CourseTypeLocal = {
+export type CourseTypeLocal = {
   id: number;
   code: string;
   description: string;
@@ -10,12 +10,12 @@ type CourseTypeLocal = {
   updated_at: string;
 };
 
-// type CourseTypeGlobal = {
-//   active: CourseTypeLocal[];
-// };
-
 type CourseTypeActive = {
     active: CourseTypeLocal[];
+}
+
+type CourseTypeAll = {
+  courses: CourseTypeLocal[];
 }
 
 export async function useCourses() {
@@ -26,7 +26,7 @@ export async function useCourses() {
 }
 
 export async function useAllCourses() {
-  const { status, data } = await useFetch<CourseTypeGlobal>('http://localhost:8000/api/courses', { lazy: false });
+  const { status, data } = await useFetch<CourseTypeAll>('http://localhost:8000/api/courses', { lazy: false });
   const courses = ref<CourseTypeLocal[]>(data.value || { courses: [] });
 
   return { status, courses };
