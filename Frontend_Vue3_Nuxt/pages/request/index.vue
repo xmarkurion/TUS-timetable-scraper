@@ -97,13 +97,4 @@ const fixTime = (timestamp: string): string => {
     </div>
 
   </div>
-
-
-  <div class="bottom-0 left-0 right-0 p-1 bg-white border-t border-gray-200 flex justify-center p-4">
-    <NuxtLink to="/request">
-      <Button variant="outline" size="sm">
-        Admin Panel
-      </Button>
-    </NuxtLink>
-  </div>
 </template>

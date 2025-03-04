@@ -27,10 +27,13 @@ class RequestTableController extends Controller
         }
         if (!$requests->count()) {
             return response()->json([
-                'message' => 'No pending requests found.'
+                'pending' => 'No pending requests'
             ]);
         }
-        return response()->json($response);
+
+        return response()->json([
+            'pending' => $response
+        ]);
     }
 
     public function acceptAllRequests()
