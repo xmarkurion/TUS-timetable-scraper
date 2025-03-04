@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { sendCourseRequest } from '~/data/requests';
 import { ref, defineProps } from 'vue';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,13 +13,36 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-
+const closeBtn = ref<HTMLElement | null>(null);
 const props = defineProps<{
   course_code: string;
   course_id: number;
 }>();
 
 const response = ref<string>('');
+
+const onCloseClick = () => {
+  //close the element
+  console.log('Close clicked');
+
+}
+const onYesClick = () => {
+  console.log('Yes clicked');
+  sendCourseRequest(props.course_code)
+    .then((res) => {
+      response.value = res.message;
+      console.log('Response:', res);
+    })
+    .catch((err) => {
+      response.value = err;
+      console.log('Error:', err);
+      // then after 2 seconds, reset the response
+    });
+  setTimeout(() => {
+    response.value = '';
+  }, 5000);
+}
+
 </script>
 
 <template>
@@ -66,7 +90,7 @@ const response = ref<string>('');
               No
             </Button>
           </DialogClose>
-          <Button type="button" @click="response = 'a'" class="w-full">
+          <Button type="button" @click="onYesClick" class="w-full">
             Yes
           </Button>
         </DialogFooter>
@@ -74,8 +98,8 @@ const response = ref<string>('');
 
       <div v-else>
         <DialogFooter>
-          <DialogClose as-child>
-            <Button class="w-full">
+          <DialogClose as-child >
+            <Button class="w-full" @click="onCloseClick">
               Close
             </Button>
           </DialogClose>

@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\CsrfTokenController;
 use App\Http\Controllers\RequestTableController;
 use App\Http\Controllers\TimetableController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CourseController;
+
 
 // Authentication for new api key
 // Call this as body in postman
@@ -38,6 +40,11 @@ Route::post('/key', function (Request $request) {
 
 // Api authenticated user data.
 //
+//Route to get csrf token
+Route::middleware(['web'])->group(function () {
+    Route::get('/csrf-token', [CsrfTokenController::class, 'show']);
+});
+
 // To get this data you need to pass the token as a header
 // Authorization Bearer <token>
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {

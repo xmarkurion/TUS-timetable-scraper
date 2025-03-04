@@ -22,6 +22,11 @@ return Application::configure(basePath: dirname(__DIR__))
 
         //
     })
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->validateCsrfTokens(except: [
+            'api/courses/request',
+        ]);
+    })
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
