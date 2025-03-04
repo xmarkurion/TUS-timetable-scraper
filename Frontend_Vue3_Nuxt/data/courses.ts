@@ -20,15 +20,14 @@ export type CourseTypeAll = {
 
 export async function useCourses() {
   const { status, data } = await useFetch<CourseTypeActive>('http://localhost:8000/api/courses/active', { lazy: false });
-  const courses = ref<CourseTypeActive>(data.value || { active: [] });
+  const courses_data = ref<CourseTypeActive>(data.value || { active: [] });
 
-  return { status, courses };
+  return { status, courses_data };
 }
 
 export async function useAllCourses() {
   const { status, data } = await useFetch<CourseTypeAll>('http://localhost:8000/api/courses', { lazy: false });
   const courses_data = ref<CourseTypeAll>(data.value || { courses: [] });
-
   return { status, courses_data };
 }
 

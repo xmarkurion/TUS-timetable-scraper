@@ -10,10 +10,22 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useCourses } from '~/data/courses';
+import {type CourseTypeLocal, useCourses} from '~/data/courses';
 import SuperSpinner from '~/components/markurion/SuperSpinner.vue';
+import SearchComponent from "~/components/markurion/Search.vue";
+import {ref} from "vue";
 
-const { status, courses } = await useCourses();
+// Query all active courses
+const { status, courses_data } = await useCourses();
+
+//---------- Search helpers
+const originalCourses = ref<CourseTypeLocal[]>(courses_data.value.active);
+const filteredCourses = ref<CourseTypeLocal[]>(courses_data.value.active);
+
+const updateFilteredCourses = (courses: CourseTypeLocal[]) => {
+  filteredCourses.value = courses;
+};
+//--------- End of search helpers
 
 // should return time in format day/month/year hour:minute
 const fixTime = (timestamp: string): string => {
@@ -33,6 +45,8 @@ const fixTime = (timestamp: string): string => {
 </div>
 
 <div v-else>
+  <SearchComponent :courses="originalCourses" @update:filteredCourses="updateFilteredCourses" />
+
   <Table>
     <TableCaption>A list of time tables.</TableCaption>
     <TableHeader>
@@ -49,7 +63,7 @@ const fixTime = (timestamp: string): string => {
     </TableHeader>
     <TableBody>
 
-      <TableRow v-for="course in courses.active">
+      <TableRow v-for="course in filteredCourses">
         <TableCell class="font-medium">
           {{ course.code }}
         </TableCell>
