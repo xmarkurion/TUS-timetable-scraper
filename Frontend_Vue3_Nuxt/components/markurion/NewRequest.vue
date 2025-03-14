@@ -84,16 +84,17 @@ const onYesClick = () => {
       </div>
 
       <div v-if = "response === ''">
-        <DialogFooter>
+        <div class="flex flex-row sm:flex-row sm:justify-end gap-x-2">
           <DialogClose as-child>
             <Button class="w-full">
               No
             </Button>
           </DialogClose>
-          <Button type="button" @click="onYesClick" class="w-full">
+          <Button type="button" @click="onYesClick" class="w-full sm:gap-x-2">
             Yes
           </Button>
-        </DialogFooter>
+        </div>
+
       </div>
 
       <div v-else>
