@@ -1,0 +1,5 @@
+Find docker image for debian.
+debian 12.10
+
+docker build -t debian-with-npm .
+docker run -p 3000:3000 debian-with-npm
