@@ -38,12 +38,34 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
 RUN npm install -g playwright && \
     npx playwright install
 
-# Set the working directory
-WORKDIR /app
+RUN apt-get update && \
+    apt-get install -y lsb-release apt-transport-https ca-certificates wget && \
+    wget -O- https://packages.sury.org/php/apt.gpg | apt-key add - && \
+    echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
+
+# Install PHP 8.3 and FPM
+RUN apt-get update && \
+    apt-get install -y \
+    php8.3-fpm \
+    php8.3-cli \
+    php8.3-mysql \
+    && apt-get clean
+
+# Install Nginx
+RUN apt-get update && \
+    apt-get install -y nginx && \
+    apt-get clean
+
+    # Set the working directory
+#WORKDIR /var/www/html
 
 # Copy your application files into the container (optional)
 # Copy the contents of the backend-api-laravel directory into the container
-COPY ../ /app/
+COPY . .
+#RUN chown -R www-data:www-data /var/www/html \
+#    && chmod -R 775 /var/www/html/storage \
+#    && chmod -R 775 /var/www/html/bootstrap/cache
+
 
 # Expose any necessary ports (replace with your desired port)
 EXPOSE 3000

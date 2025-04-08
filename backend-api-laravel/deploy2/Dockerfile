@@ -1,7 +1,11 @@
 FROM debian:bookworm
 
+
+WORKDIR /var/www/html
+COPY . .
+
 # Set environment variables for Playwright
-ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+#ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
 # Update and install required dependencies
 RUN apt-get update && apt-get install -y \
@@ -33,16 +37,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs && \
     apt-get clean
 
-# Install Playwright and its browsers
-RUN npm install -g playwright && \
-    npx playwright install-deps
-
-WORKDIR /home/test
-RUN npm init playwright@latest -y
-
-# Install Playwright browsers (Chromium, Firefox, WebKit)
-RUN npx playwright install --with-deps
-
+WORKDIR /var/www/html/app/Services/data-scraper-playwright
+RUN npm install -y
+RUN npx playwright install
+RUN npm run check
 
 # Default command to keep the container running
 CMD ["tail", "-f", "/dev/null"]

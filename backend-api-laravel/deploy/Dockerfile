@@ -37,10 +37,20 @@ RUN composer install --no-dev --prefer-dist
 #    && npm install \
 #    && npm run build
 
-WORKDIR /var/www/html/app/Services/data-scraper-playwright
-RUN npm install \
-    npx playwright install
+# ----------------------
+# Install Node.js and npm
+RUN apk update && \
+    apk add npm &&\
 
+# Install Playwright and its browsers
+RUN npm install -g playwright
+
+WORKDIR /var/www/html/app/Services/data-scraper-playwright
+RUN npm install -y
+RUN npx playwright install
+#WORKDIR /var/www/html/app/Services/data-scraper-playwright
+#RUN npm install \
+#    npx playwright install
 
 WORKDIR /var/www/html
 
